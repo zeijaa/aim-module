@@ -50,7 +50,7 @@ Configuration.__index = Configuration
 
 local Circle = nil
 
-function library:Mode(value)
+function library:Mode(value) --// THIS DOES NOTHING RN!!
     if (value == 'Mouse') then
         return 'Mouse'
     elseif (value == 'Camera') then
@@ -92,7 +92,7 @@ function library:UpdateCirclePosition()
 
     Circle.Position = Mouse_Pos
 end
-function library:MoveMouse(value)
+function library:MoveMouse(value) --// THIS DOES NOTHING RN!!
     mousemoverel(value, value)
     print(value)
 end
@@ -220,7 +220,7 @@ function library:MoveCamera(value, Prediction)
     end
 end
 
-function library:Unload()
+function library:Unload() --// THIS DOES NOTHING RN!!
     Circle:Remove()
 
     Configuration.Unloaded_State = true
