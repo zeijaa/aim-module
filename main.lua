@@ -225,3 +225,5 @@ function library:Unload()
 
     Configuration.Unloaded_State = true
 end
+
+return library
