@@ -8,7 +8,13 @@ local Players = cloneref(game:GetService('Players'))
 
 local LocalPlayer = Players.LocalPlayer
 
-local library = {}
+local library = {
+    Unloaded_State = false,
+
+    Horozontal_Prediction = 0,
+
+    Vertical_Prediction = 0,
+}
 
 library.__index = library
 
@@ -19,12 +25,6 @@ local Configuration = {
     TweenTime = 1, 
 
     Radius = 90,
-
-    Unloaded_State = false,
-
-    Horozontal_Prediction = 0,
-
-    Vertical_Prediction = 0,
 
     Aim_Parts = {
         "Head",
@@ -50,7 +50,7 @@ Configuration.__index = Configuration
 
 local Circle = nil
 
-function library:Mode(value) --// THIS DOES NOTHING RN!!
+function library:Mode(value)
     if (value == 'Mouse') then
         return 'Mouse'
     elseif (value == 'Camera') then
@@ -92,7 +92,7 @@ function library:UpdateCirclePosition()
 
     Circle.Position = Mouse_Pos
 end
-function library:MoveMouse(value) --// THIS DOES NOTHING RN!!
+function library:MoveMouse(value)
     mousemoverel(value, value)
     print(value)
 end
@@ -194,36 +194,26 @@ end
 
 function library:UpdatePrediction(Horozontal, Vertical, Vertical_Offset, Vertical_Offset_Value)
 
-    Configuration.Horozontal_Prediction = Horozontal
+    library.Horozontal_Prediction = Horozontal
 
-    Configuration.Vertical_Prediction = Vertical
+    library.Vertical_Prediction = Vertical
 
     if (Vertical_Offset) then
-        Configuration.Vertical_Prediction = Vertical - Vertical_Offset_Value
+        library.Vertical_Prediction = Vertical - Vertical_Offset_Value
     end
 end
 
-function library:MoveCamera(value, Prediction)
-
+function library:MoveCamera(value)
     local Camera_Position = Camera.CFrame.Position
 
-    if (Prediction) then
-        local X, Y, Z = value.Position.X + value.Velocity.X * Configuration.Horozontal_Prediction,
-        value.Position.Y + value.Velocity.Y * Configuration.Vertical_Prediction,
-        value.Position.Z + value.Velocity.Z * Configuration.Horozontal_Prediction
-    end
-
-    if (not Prediction) then
-        Camera.CFrame = Camera.CFrame:Lerp(CFrame.lookAt(Camera_Position, value), Configuration.TweenTime)
-    else
-        Camera.CFrame = Camera.CFrame:Lerp(CFrame.lookAt(Camera_Position, Vector3.new(X, Y, Z)), Configuration.TweenTime)
-    end
+    Camera.CFrame = Camera.CFrame:Lerp(CFrame.lookAt(Camera_Position, value), Configuration.TweenTime)
 end
 
-function library:Unload() --// THIS DOES NOTHING RN!!
+function library:Unload()
+    
     Circle:Remove()
 
-    Configuration.Unloaded_State = true
+    library.Unloaded_State = true
 end
 
 return library
