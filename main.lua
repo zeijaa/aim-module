@@ -66,7 +66,7 @@ function library:TweenTime(value)
 end
 
 function library:DrawCircle(Radius, Sides, Transparency, Filled, Color)
-    if (Circle == Drawing.new('Circle')) then
+    if (Circle) then
         Circle:Remove()
     end
 
