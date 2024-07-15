@@ -40,9 +40,9 @@ function hitboxlibrary:HitboxAll(Size, Transparency)
     end
 end
 
-function hitboxlibrary:HitboxPlayer(Player, Size, Transparency)
-    if (Player and Player.Character) then
-        local Character = Player.Character
+function hitboxlibrary:HitboxPlayer(Character, Size, Transparency)
+    if (Character) then
+        local Character = Character
 
         local Humanoid = Character:FindFirstChild('Humanoid')
 
