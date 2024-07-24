@@ -156,6 +156,65 @@ function library:GetClosestPlayer(TeamCheck)
     return ClosestPlayer
 end
 
+function library:GetClosestPlayerModded(TeamCheck)
+
+    local Mouse_Position = UserInputService:GetMouseLocation()
+
+    local Distance = math.huge
+
+    local ClosestPlayer = nil
+
+    pcall(function()
+        for _ , value in next, Players:GetPlayers() do
+            if (value ~= LocalPlayer and value ~= nil and value.Character ~= nil) then
+    
+                local Character = value.Character
+    
+                local Humanoid = Character:FindFirstChild('Humanoid')
+    
+                local HumanoidRootPart = Character:FindFirstChild('HumanoidRootPart')
+    
+                if (TeamCheck) then
+    
+                    if (value.TeamColor ~= LocalPlayer.TeamColor) then
+            
+                        if (Humanoid and Humanoid.Health >= 0 and HumanoidRootPart) then
+            
+                            local Vector, OnScreen = Camera:WorldToViewportPoint(HumanoidRootPart.Position)
+            
+                            if (OnScreen) then
+                                local Magnitude = (Mouse_Position - Vector2.new(Vector.X, Vector.Y)).Magnitude
+            
+                                if (Magnitude < Distance and Magnitude < getgenv().CircleTable.Radius) then
+                                    Distance = Magnitude
+            
+                                    ClosestPlayer = value
+                                end
+                            end
+                        end
+                    end
+                else
+                    if (Humanoid and Humanoid.Health >= 0 and HumanoidRootPart) then
+        
+                        local Vector, OnScreen = Camera:WorldToViewportPoint(HumanoidRootPart.Position)
+        
+                        if (OnScreen) then
+                            local Magnitude = (Mouse_Position - Vector2.new(Vector.X, Vector.Y)).Magnitude
+        
+                            if (Magnitude < Distance and Magnitude < getgenv().CircleTable.Radius) then
+                                Distance = Magnitude
+        
+                                ClosestPlayer = value
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+    return ClosestPlayer
+end
+
 function library:GetClosestPart(Player)
 
     local Distance = math.huge
