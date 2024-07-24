@@ -61,6 +61,30 @@ function hitboxlibrary:HitboxPlayer(Player, Size, Transparency)
     end
 end
 
+function hitboxlibrary:HitboxPlayerPart(Player, Part, Size, Transparency)
+    if (Player.Character) then
+
+        local Character = Player.Character
+
+        local Humanoid = Character:FindFirstChild('Humanoid') or Character:WaitForChild('Humanoid')
+
+        local P = Character:FindFirstChild(Part) or Character:WaitForChild(Part)
+
+        if (Humanoid ~= nil and Humanoid.Health > 0 and P ~= nil) then
+
+            P.Massless = true --// Protection
+
+            P.CanCollide = false --// Protection
+
+            P.Transparency = Transparency
+
+            P.Size = Size
+        end
+    else
+        Player.CharacterAdded:Wait()
+    end
+end
+
 function hitboxlibrary:ChangeSize(value)
     hitboxlibrary.Size = value
 end
